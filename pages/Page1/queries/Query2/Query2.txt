@@ -11,13 +11,13 @@ WITH FilteredPayments AS (
   WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
     AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
     AND "status" = 'responseReceivedSuccess'
-    AND "amount" IN (3398, 4198,3399)
+    AND "amount" IN (3398, 4198,3399, 5998, 5999, 5198)
 	  AND "paymentForId" IS NULL
 )
 SELECT fp."amount", COUNT(fp."userId") AS payment_count, SUM(fp."amount") AS total_amount
 FROM FilteredPayments fp
 JOIN "UserCourse" uc ON fp."userId" = uc."userId"
-WHERE uc."courseId" = 4016
+WHERE uc."courseId" IN ('4016','4017')
   AND (uc."expiryAt" - uc."startedAt") >= interval '5 days'
 	AND (uc."createdAt" > fp."createdAt")
 GROUP BY fp."amount";
