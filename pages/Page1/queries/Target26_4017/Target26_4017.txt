@@ -1,0 +1,43 @@
+SELECT 
+    CASE 
+        WHEN "amount" = 6999 THEN 'Non-assisted sale'
+        ELSE 'Assisted sale' 
+    END AS "Conversion",
+    COUNT(*) AS "Count",
+    SUM("amount") AS "Revenue"
+FROM "Payment"
+WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
+  AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
+  AND "status" = 'responseReceivedSuccess'
+  AND "paymentForId" = 4017
+GROUP BY 
+    CASE 
+        WHEN "amount" = 6999 THEN 'Non-assisted sale'
+        ELSE 'Assisted sale' 
+    END
+
+UNION ALL
+
+SELECT 
+    'Total' AS "Conversion",
+    SUM("Count") AS "Count",
+    SUM("Revenue") AS "Revenue"
+FROM (
+    SELECT 
+        CASE 
+            WHEN "amount" = 6999 THEN 'Non-assisted sale'
+            ELSE 'Assisted sale' 
+        END AS "Conversion",
+        COUNT(*) AS "Count",
+        SUM("amount") AS "Revenue"
+    FROM "Payment"
+    WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
+      AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
+      AND "status" = 'responseReceivedSuccess'
+      AND "paymentForId" = 4017
+    GROUP BY 
+        CASE 
+            WHEN "amount" = 6999 THEN 'Non-assisted sale'
+            ELSE 'Assisted sale' 
+        END
+) AS subquery;
