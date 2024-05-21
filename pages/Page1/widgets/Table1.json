@@ -12,10 +12,10 @@
         {"key": "accentColor"},
         {"key": "borderRadius"},
         {"key": "boxShadow"},
+        {"key": "tableData"},
         {"key": "primaryColumns.Conversion.computedValue"},
         {"key": "primaryColumns.Count.computedValue"},
-        {"key": "primaryColumns.Revenue.computedValue"},
-        {"key": "tableData"}
+        {"key": "primaryColumns.Revenue.computedValue"}
     ],
     "needsHeightForContent": true,
     "leftColumn": 0,
@@ -64,7 +64,7 @@
         }
     },
     "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
-    "columnUpdatedAt": 1716212662443,
+    "columnUpdatedAt": 1716294936608,
     "originalBottomRow": 38,
     "defaultSelectedRowIndices": [0],
     "needsErrorInfo": false,
@@ -199,7 +199,7 @@
     "thumbnailSVG": "https://appcdn.appsmith.com/static/media/thumbnail.d0492f06681daa69baf92b07d3829dfc.svg",
     "widgetId": "9q7bnzsmq2",
     "minWidth": 450,
-    "tableData": "{{Query2.data}}",
+    "tableData": "{{Target25_4016.data}}",
     "label": "Data",
     "searchKey": "",
     "parentId": "0",
