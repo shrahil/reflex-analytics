@@ -1,11 +1,22 @@
 SELECT 
 		"amount",
     COUNT(*) AS "Count",
-    SUM("amount") AS "Revenue"
+    "amount" * count(*) AS "Revenue"
 FROM "Payment"
 WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
   AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
   AND "status" = 'responseReceivedSuccess'
   AND "paymentForId" = 4017
 GROUP BY "amount"
+UNION
+SELECT 
+		null,
+    COUNT(*) AS "Count",
+    sum("amount")
+FROM "Payment"
+WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
+  AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
+  AND "status" = 'responseReceivedSuccess'
+  AND "paymentForId" = 4017
+	ORDER BY "Revenue" DESC
 

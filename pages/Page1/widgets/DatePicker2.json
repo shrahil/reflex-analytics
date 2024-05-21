@@ -13,7 +13,7 @@
         {"key": "defaultDate"}
     ],
     "isDisabled": false,
-    "onDateSelected": "{{Target25_4016.run();\nTarget26_4017.run();\nQuery2.run()}}",
+    "onDateSelected": "{{Target25_4016.run();\nTarget26_4017.run();\nUntagged_Assisted.run()}}",
     "isRequired": false,
     "dynamicHeight": "FIXED",
     "accentColor": "{{appsmith.theme.colors.primaryColor}}",

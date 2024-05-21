@@ -198,7 +198,7 @@
     "thumbnailSVG": "https://appcdn.appsmith.com/static/media/thumbnail.d0492f06681daa69baf92b07d3829dfc.svg",
     "widgetId": "9gjpmidr62",
     "minWidth": 450,
-    "tableData": "{{Query2.data}}",
+    "tableData": "{{Untagged_Assisted.data}}",
     "label": "Data",
     "searchKey": "",
     "parentId": "0",

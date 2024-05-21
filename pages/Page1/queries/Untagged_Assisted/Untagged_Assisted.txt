@@ -20,4 +20,13 @@ JOIN "UserCourse" uc ON fp."userId" = uc."userId"
 WHERE uc."courseId" IN ('4016','4017')
   AND (uc."expiryAt" - uc."startedAt") >= interval '5 days'
 	AND (uc."createdAt" > fp."createdAt")
-GROUP BY fp."amount";
+GROUP BY fp."amount"
+UNION 
+SELECT 
+	null, COUNT(fp."userId") AS payment_count, SUM(fp."amount")
+FROM FilteredPayments fp
+JOIN "UserCourse" uc ON fp."userId" = uc."userId"
+WHERE uc."courseId" IN ('4016','4017')
+  AND (uc."expiryAt" - uc."startedAt") >= interval '5 days'
+	AND (uc."createdAt" > fp."createdAt")
+ORDER BY total_amount DESC
