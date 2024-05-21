@@ -1,22 +1,35 @@
-/* 
-  Query to fetch payments grouped by amount, where the amount is 3398 or 4198, 
-  within a specified date range, the status is 'responseReceivedSuccess', 
-  and paymentForId is NULL. Join with UserCourse table to find entries with courseId 4016.
-  Exclude cases where startedAt and expiryAt differ by less than 5 days.
-*/
-
 WITH FilteredPayments AS (
   SELECT "amount", "userId"
   FROM "Payment"
   WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
     AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
     AND "status" = 'responseReceivedSuccess'
-    AND "amount" IN (3398, 4198)
     AND "paymentForId" IS NULL
 )
-SELECT fp."amount", COUNT(fp."userId") AS payment_count, SUM(fp."amount") AS total_amount
-FROM FilteredPayments fp
-JOIN "UserCourse" uc ON fp."userId" = uc."userId"
-WHERE uc."courseId" = 4016
-  AND (uc."expiryAt" - uc."startedAt") >= interval '7 days'
-GROUP BY fp."amount";
+, ClassifiedPayments AS (
+  SELECT 
+    CASE 
+      WHEN fp."amount" IN (4198, 3398) THEN 'Assisted sale'
+      ELSE 'Non-assisted sale'
+    END AS "Conversion",
+    fp."amount",
+    fp."userId"
+  FROM FilteredPayments fp
+  JOIN "UserCourse" uc ON fp."userId" = uc."userId"
+  WHERE uc."courseId" = 4016
+    AND (uc."expiryAt" - uc."startedAt") >= interval '7 days'
+)
+SELECT 
+  "Conversion",
+  COUNT("userId") AS "Count",
+  SUM("amount") AS "Revenue"
+FROM ClassifiedPayments
+GROUP BY "Conversion"
+
+UNION ALL
+
+SELECT 
+  'Total' AS "Conversion",
+  COUNT("userId") AS "Count",
+  SUM("amount") AS "Revenue"
+FROM ClassifiedPayments;

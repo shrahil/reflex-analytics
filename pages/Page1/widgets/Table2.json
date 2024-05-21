@@ -12,10 +12,10 @@
         {"key": "accentColor"},
         {"key": "borderRadius"},
         {"key": "boxShadow"},
-        {"key": "tableData"},
         {"key": "primaryColumns.Conversion.computedValue"},
         {"key": "primaryColumns.Count.computedValue"},
-        {"key": "primaryColumns.Revenue.computedValue"}
+        {"key": "primaryColumns.Revenue.computedValue"},
+        {"key": "tableData"}
     ],
     "needsHeightForContent": true,
     "leftColumn": 33,
@@ -199,7 +199,7 @@
     "thumbnailSVG": "https://appcdn.appsmith.com/static/media/thumbnail.d0492f06681daa69baf92b07d3829dfc.svg",
     "widgetId": "1qe1j1awjl",
     "minWidth": 450,
-    "tableData": "{{Target26_4017.data}}",
+    "tableData": "{{Query3.data}}",
     "label": "Data",
     "searchKey": "",
     "parentId": "0",

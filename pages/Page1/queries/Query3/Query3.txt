@@ -1,14 +1,34 @@
 WITH FilteredPayments AS (
-  SELECT "amount", "userId"
+  SELECT "amount", "userId", "paymentForId"
   FROM "Payment"
   WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
     AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
     AND "status" = 'responseReceivedSuccess'
-    AND "amount" IN (3398, 4198)
-    AND "paymentForId" IS NULL
 )
-SELECT fp."amount", COUNT(fp."userId") AS payment_count, SUM(fp."amount") AS total_amount
-FROM FilteredPayments fp
-JOIN "UserCourse" uc ON fp."userId" = uc."userId"
-WHERE uc."courseId" = 4017
-GROUP BY fp."amount";
+, ClassifiedPayments AS (
+  SELECT 
+    CASE 
+      WHEN fp."amount" IN (5998, 5999) AND fp."paymentForId" IS NULL THEN 'Assisted sale'
+      ELSE 'Non-assisted sale'
+    END AS "Conversion",
+    fp."amount",
+    fp."userId"
+  FROM FilteredPayments fp
+  JOIN "UserCourse" uc ON fp."userId" = uc."userId"
+  WHERE uc."courseId" = 4017
+    AND (uc."expiryAt" - uc."startedAt") >= interval '7 days'
+)
+SELECT 
+  "Conversion",
+  COUNT("userId") AS "Count",
+  SUM("amount") AS "Revenue"
+FROM ClassifiedPayments
+GROUP BY "Conversion"
+
+UNION ALL
+
+SELECT 
+  'Total' AS "Conversion",
+  COUNT("userId") AS "Count",
+  SUM("amount") AS "Revenue"
+FROM ClassifiedPayments;

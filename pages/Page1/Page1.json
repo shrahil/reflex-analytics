@@ -40,19 +40,8 @@
               "timeoutInMillisecond": 10000
             },
             {
-              "id": "Page1_Target25_4016",
-              "name": "Target25_4016",
-              "confirmBeforeExecute": false,
-              "pluginType": "DB",
-              "jsonPathKeys": [
-                "moment(DatePicker1.selectedDate).format(\"YYYY-MM-DD\")",
-                "moment(DatePicker2.selectedDate).format(\"YYYY-MM-DD\")"
-              ],
-              "timeoutInMillisecond": 10000
-            },
-            {
-              "id": "Page1_Target26_4017",
-              "name": "Target26_4017",
+              "id": "Page1_Query3",
+              "name": "Query3",
               "confirmBeforeExecute": false,
               "pluginType": "DB",
               "jsonPathKeys": [
