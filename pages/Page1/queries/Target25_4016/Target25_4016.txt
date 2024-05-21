@@ -1,7 +1,7 @@
 SELECT 
 		"amount",
     COUNT(*) AS "Count", 
-    SUM("amount") AS "Revenue" 
+    "amount" * count(*) AS "Revenue" 
 FROM "Payment" 
 WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes' 
   AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes' 
@@ -9,4 +9,17 @@ WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::
   AND "paymentForId" = 4016
 	AND "amount" NOT IN ('3398', '3399', '3498', '3499')
 GROUP BY 
-"amount"
+"amount" 
+UNION
+SELECT 
+		null,
+    COUNT(*), 
+    SUM("amount") 
+FROM "Payment" 
+WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes' 
+  AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes' 
+  AND "status" = 'responseReceivedSuccess' 
+  AND "paymentForId" = 4016
+	AND "amount" NOT IN ('3398', '3399', '3498', '3499') order BY "Revenue" DESC
+
+

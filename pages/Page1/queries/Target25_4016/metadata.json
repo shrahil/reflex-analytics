@@ -18,7 +18,7 @@
       "timeoutInMillisecond": 10000,
       "paginationType": "NONE",
       "encodeParamsToggle": true,
-      "body": "SELECT \n\t\t\"amount\",\n    COUNT(*) AS \"Count\", \n    SUM(\"amount\") AS \"Revenue\" \nFROM \"Payment\" \nWHERE \"createdAt\" >= {{moment(DatePicker1.selectedDate).format(\"YYYY-MM-DD\")}}::date - interval '330 minutes' \n  AND \"createdAt\" <= {{moment(DatePicker2.selectedDate).format(\"YYYY-MM-DD\")}}::date + interval '1110 minutes' \n  AND \"status\" = 'responseReceivedSuccess' \n  AND \"paymentForId\" = 4016\n\tAND \"amount\" NOT IN ('3398', '3399', '3498', '3499')\nGROUP BY \n\"amount\"\n",
+      "body": "SELECT \n\t\t\"amount\",\n    COUNT(*) AS \"Count\", \n    \"amount\" * count(*) AS \"Revenue\" \nFROM \"Payment\" \nWHERE \"createdAt\" >= {{moment(DatePicker1.selectedDate).format(\"YYYY-MM-DD\")}}::date - interval '330 minutes' \n  AND \"createdAt\" <= {{moment(DatePicker2.selectedDate).format(\"YYYY-MM-DD\")}}::date + interval '1110 minutes' \n  AND \"status\" = 'responseReceivedSuccess' \n  AND \"paymentForId\" = 4016\n\tAND \"amount\" NOT IN ('3398', '3399', '3498', '3499')\nGROUP BY \n\"amount\" \nUNION\nSELECT \n\t\tnull,\n    COUNT(*), \n    SUM(\"amount\") \nFROM \"Payment\" \nWHERE \"createdAt\" >= {{moment(DatePicker1.selectedDate).format(\"YYYY-MM-DD\")}}::date - interval '330 minutes' \n  AND \"createdAt\" <= {{moment(DatePicker2.selectedDate).format(\"YYYY-MM-DD\")}}::date + interval '1110 minutes' \n  AND \"status\" = 'responseReceivedSuccess' \n  AND \"paymentForId\" = 4016\n\tAND \"amount\" NOT IN ('3398', '3399', '3498', '3499') order BY \"Revenue\" DESC\n\n\n",
       "selfReferencingDataPaths": [],
       "pluginSpecifiedTemplates": [
         {
