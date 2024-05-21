@@ -9,7 +9,8 @@
     "leftColumn": 1,
     "dynamicBindingPathList": [
         {"key": "accentColor"},
-        {"key": "borderRadius"}
+        {"key": "borderRadius"},
+        {"key": "defaultDate"}
     ],
     "isDisabled": false,
     "onDateSelected": "{{Target25_4016.run().then(() => {\n  resetWidget(\"Table1\", true);\n});\nTarget26_4017.run();\nQuery2.run()}}",
@@ -36,7 +37,7 @@
     "mobileBottomRow": 7,
     "widgetName": "DatePicker1",
     "minDate": "1920-12-31T18:30:00.000Z",
-    "dynamicPropertyPathList": [],
+    "dynamicPropertyPathList": [{"key": "defaultDate"}],
     "displayName": "DatePicker",
     "searchTags": ["calendar"],
     "bottomRow": 8,
@@ -49,7 +50,7 @@
     "labelPosition": "Top",
     "key": "pyil7jjlv9",
     "labelTextSize": "0.875rem",
-    "defaultDate": "2024-05-09T06:01:00.765Z",
+    "defaultDate": "{{new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()}}",
     "isDeprecated": false,
     "rightColumn": 24,
     "thumbnailSVG": "https://appcdn.appsmith.com/static/media/thumbnail.6f2ddea04e74f31810326bef3bc239b8.svg",
