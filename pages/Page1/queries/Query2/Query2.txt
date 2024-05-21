@@ -9,7 +9,7 @@ WITH FilteredPayments AS (
 , ClassifiedPayments AS (
   SELECT 
     CASE 
-      WHEN fp."amount" IN (4198, 3398) THEN 'Assisted sale'
+      WHEN fp."amount" IN (4198, 3398, 3399) THEN 'Assisted sale'
       ELSE 'Non-assisted sale'
     END AS "Conversion",
     fp."amount",
