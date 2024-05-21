@@ -3,7 +3,6 @@ WITH FilteredPayments AS (
   FROM "Payment"
   WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
     AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
-    AND "status" = 'responseReceivedSuccess'
 )
 , ClassifiedPayments AS (
   SELECT 
