@@ -1,1 +1,14 @@
-SELECT * FROM "UserCourse" LIMIT 10;
+WITH FilteredPayments AS (
+  SELECT "amount", "userId"
+  FROM "Payment"
+  WHERE "createdAt" >= {{moment(DatePicker1.selectedDate).format("YYYY-MM-DD")}}::date - interval '330 minutes'
+    AND "createdAt" <= {{moment(DatePicker2.selectedDate).format("YYYY-MM-DD")}}::date + interval '1110 minutes'
+    AND "status" = 'responseReceivedSuccess'
+    AND "amount" IN (3398, 4198)
+    AND "paymentForId" IS NULL
+)
+SELECT fp."amount", COUNT(fp."userId") AS payment_count, SUM(fp."amount") AS total_amount
+FROM FilteredPayments fp
+JOIN "UserCourse" uc ON fp."userId" = uc."userId"
+WHERE uc."courseId" = 4017
+GROUP BY fp."amount";
